@@ -79,14 +79,16 @@ function AppClass( canvasSelector, initR, scale ) {
 				continue;
 			//console.log( lines[i] );
 			coords = lines[i].split(",");
-			//console.log( coords );
+			console.log( coords );
+
+			curX = Number(coords[0].trim()) * this.scale;
+			curY = Number(coords[1].trim()) * this.scale;
+
+			console.log( curX, curY );
 
 			if ( i == 0 )
-				this.scaleAndAddRedPoint( Number( coords[0].trim() ), Number( coords[1].trim() ) );
+				this.scaleAndAddRedPoint( curX, curY );
 			else {
-
-				curX = Number(coords[0].trim());
-				curY = Number(coords[1].trim());
 
 				point = this.scaleAndAddPoint( curX, curY );
 
@@ -126,6 +128,8 @@ function AppClass( canvasSelector, initR, scale ) {
 		this.drawNearestAndFarthestPoint();
 		console.log( this.points );
 
+		this.drawPointCircle( 15, 5, '#00aa00', '#00aa00');
+
 	};
 
 	this.drawNearestAndFarthestPoint = function() {
@@ -143,7 +147,7 @@ function AppClass( canvasSelector, initR, scale ) {
 
 	this.scaleAndAddRedPoint = function( x, y ) {
 
-		var point = new Point( x * this.scale, y * this.scale );
+		var point = new Point( x, y );
 
 		point.scolor = '#990000';
 		point.fcolor = '#ff0000';
@@ -156,7 +160,7 @@ function AppClass( canvasSelector, initR, scale ) {
 	};
 	this.scaleAndAddPoint = function( x, y ) {
 
-		var point = new Point( x * this.scale, y * this.scale );
+		var point = new Point( x, y );
 
 		this.points.push( point );
 
