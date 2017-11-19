@@ -7,12 +7,56 @@
 		<meta name="apple-mobile-web-app-capable" content="yes">
 		<meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
 		<script src="js/d3.v4.min.js"></script>
-		<script src="css/style.css"></script>
+		<script src="js/jquery.min.js"></script>
+		<script src="js/jcanvas.min.js"></script>
+		<script src="js/utility-adhocmaster.js"></script>
+		<script src="js/app.js"></script>
+
+
+		<link rel="stylesheet" href="css/style.css">
+
+		<script type="text/javascript">
+
+		var R = 4;
+		var scale = 100;
+		$(document).ready( function() {
+
+
+
+
+			var canvas = $('#canvas-global');
+
+			var app = new AppClass( canvas, R, scale );
+
+			app.drawAxes( 'canvas-global' );
+
+
+
+			app.loadData();
+
+
+		});
+		</script>
+
 	</head>
 
 	<body>
 
-	
+		<canvas id="canvas-global" width="1000" height="600">
+		  <p>Please run this application in a modern browser to see the content.</p>
+		</canvas>
+
+		<div>
+			<h3>Assumptions & Considerations</h3>
+			<ul>
+				<li>co-ordinates are normalized (max value is 1 along an axis)</li>
+				<li>co-ordinates are multiplied by 100 before drawing pixels</li>
+				<li>scale: 1 unit = 5 pixels on screen</li>
+			</ul>
+		</div>
+		<div id="loadingOverlay">
+			loading data
+		</div>
 		
 	</body>
 </html>
