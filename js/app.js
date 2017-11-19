@@ -62,11 +62,16 @@ function AppClass( canvasSelector, initR, scale ) {
 		var lines = data.split("\n");
 		var coords;
 
-		var minDistance = -1;
-		var maxDistance = 0;
+		var minDistance = Number.MAX_VALUE;
+		var maxDistance = Number.MIN_VALUE;
 
 		var sq;
 		var root;
+
+		var point;
+
+		var curX;
+		var curY;
 
 		for ( var i = 0; i < lines.length; ++i ) {
 
@@ -77,28 +82,46 @@ function AppClass( canvasSelector, initR, scale ) {
 			//console.log( coords );
 
 			if ( i == 0 )
-				this.scaleAndAddRedPoint( coords[0].trim(), coords[1].trim() );
+				this.scaleAndAddRedPoint( Number( coords[0].trim() ), Number( coords[1].trim() ) );
 			else {
 
-				this.scaleAndAddPoint( coords[0].trim(), coords[1].trim() );
+				curX = Number(coords[0].trim());
+				curY = Number(coords[1].trim());
 
-				sq = ( this.redPoint.x - coords[0].trim() ) * ( this.redPoint.x - coords[0].trim() ) + ( this.redPoint.y - coords[1].trim() ) * ( this.redPoint.y - coords[1].trim() );
+				point = this.scaleAndAddPoint( curX, curY );
 
-				root = sqrt( sq );
+				sq = ( this.redPoint.x - curX ) * ( this.redPoint.x - curX ) + ( this.redPoint.y - curY ) * ( this.redPoint.y - curY );
 
-				if ( minDistance == -1 )
+				root = Math.sqrt( sq );
+
+
+				console.log( root );
+
+				if ( minDistance >= root ) {
+
 					minDistance = root;
-				if ( maxDistance == 0 )
+
+					this.nearestPoint = point;
+				}
+
+				if ( maxDistance <= root ) {
+
 					maxDistance = root;
 
-				
+					this.farthestPoint = point;
+
+				}
 
 
 			}
 
 		}
 
+		console.log( minDistance );
+		console.log( maxDistance );
+
 		this.drawPoint( this.redPoint );
+
 
 		this.drawNearestAndFarthestPoint();
 		console.log( this.points );
@@ -107,6 +130,13 @@ function AppClass( canvasSelector, initR, scale ) {
 
 	this.drawNearestAndFarthestPoint = function() {
 
+		this.nearestPoint.scolor = "#0000aa";
+		this.nearestPoint.fcolor = "#0000ff";
+		this.farthestPoint.scolor = "#00aa00";
+		this.farthestPoint.fcolor = "#00ff00";
+
+		this.drawPoint( this.nearestPoint );
+		this.drawPoint( this.farthestPoint );
 
 
 	};
@@ -131,6 +161,8 @@ function AppClass( canvasSelector, initR, scale ) {
 		this.points.push( point );
 
 		this.drawPoint( point );
+
+		return point;
 	};
 
 	this.drawPoint = function( point ) {
