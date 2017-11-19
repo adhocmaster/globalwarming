@@ -128,7 +128,7 @@ function AppClass( canvasSelector, initR, scale ) {
 		this.drawNearestAndFarthestPoint();
 		console.log( this.points );
 
-		this.drawPointCircle( 15, 5, '#00aa00', '#00aa00');
+		//this.drawPointCircle( 15, 5, '#00aa00', '#00aa00');
 
 	};
 
@@ -177,7 +177,7 @@ function AppClass( canvasSelector, initR, scale ) {
 	}
 
 
-	this.drawPointCircle = function ( xPos, xPos, scolor, fcolor ) {
+	this.drawPointCircle = function ( xPos, yPos, scolor, fcolor ) {
 
 		//console.log(  xPos, xPos, scolor, scolor );
 		this.canvasSelector.drawArc({
@@ -185,7 +185,7 @@ function AppClass( canvasSelector, initR, scale ) {
 		  strokeWidth: 1,
 
   		  fillStyle: fcolor,
-		  x: xPos * this.pixelPerUnit, y: - xPos * this.pixelPerUnit,
+		  x: xPos * this.pixelPerUnit, y: - yPos * this.pixelPerUnit,
 		  radius: this.R,
 		  // start and end angles in degrees
 		  start: 0, end: 360
