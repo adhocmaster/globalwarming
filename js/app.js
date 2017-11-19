@@ -4,7 +4,7 @@ function Point( x, y ) {
 	this.y = y;
 
 	this.scolor = "#000";
-	this.fcolor = "#888";
+	this.fcolor = "#aaa";
 
 }
 
@@ -21,6 +21,9 @@ function AppClass( canvasSelector, initR, scale ) {
 	this.points = [];
 
 	this.redPoint;
+
+	this.nearestPoint;
+	this.farthestPoint;
 
 	this.run = function () {
 
@@ -59,6 +62,12 @@ function AppClass( canvasSelector, initR, scale ) {
 		var lines = data.split("\n");
 		var coords;
 
+		var minDistance = -1;
+		var maxDistance = 0;
+
+		var sq;
+		var root;
+
 		for ( var i = 0; i < lines.length; ++i ) {
 
 			if ( lines[i].trim() == "" )
@@ -69,13 +78,36 @@ function AppClass( canvasSelector, initR, scale ) {
 
 			if ( i == 0 )
 				this.scaleAndAddRedPoint( coords[0].trim(), coords[1].trim() );
-			else
+			else {
+
 				this.scaleAndAddPoint( coords[0].trim(), coords[1].trim() );
+
+				sq = ( this.redPoint.x - coords[0].trim() ) * ( this.redPoint.x - coords[0].trim() ) + ( this.redPoint.y - coords[1].trim() ) * ( this.redPoint.y - coords[1].trim() );
+
+				root = sqrt( sq );
+
+				if ( minDistance == -1 )
+					minDistance = root;
+				if ( maxDistance == 0 )
+					maxDistance = root;
+
+				
+
+
+			}
 
 		}
 
 		this.drawPoint( this.redPoint );
+
+		this.drawNearestAndFarthestPoint();
 		console.log( this.points );
+
+	};
+
+	this.drawNearestAndFarthestPoint = function() {
+
+
 
 	};
 
@@ -109,14 +141,14 @@ function AppClass( canvasSelector, initR, scale ) {
 	}
 
 
-	this.drawPointCircle = function ( xPos, xPos, scolor, scolor ) {
+	this.drawPointCircle = function ( xPos, xPos, scolor, fcolor ) {
 
 		//console.log(  xPos, xPos, scolor, scolor );
 		this.canvasSelector.drawArc({
 		  strokeStyle: scolor,
-		  strokeWidth: .5,
+		  strokeWidth: 1,
 
-  		  fillStyle: scolor,
+  		  fillStyle: fcolor,
 		  x: xPos * this.pixelPerUnit, y: - xPos * this.pixelPerUnit,
 		  radius: this.R,
 		  // start and end angles in degrees
